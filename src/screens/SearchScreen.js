@@ -1,19 +1,44 @@
-import React, { useState } from "react";
-import { View, Text, StyleSheet } from "react-native";
+import React, { useState, useEffect } from "react";
+import { View, Text, StyleSheet, ScrollView } from "react-native";
 import SearchBar from "../components/SearchBar";
+import useResults from "../hooks/useResults";
+import ResultsList from "../components/ResultsList";
 
-const SearchScreen = () => {
+const SearchScreen = ({ navigation }) => {
   const [term, setTerm] = useState("");
+  const [results, searchApi, errorMsg] = useResults();
+
+  const filterResultsByPrice = (price) => {
+    // price === '$' || '$$' || '$$$'
+    return results.filter((result) => {
+      return result.price === price;
+    });
+  };
 
   return (
     <View style={{ backgroundColor: "#fff", flex: 1 }}>
       <SearchBar
         term={term}
-        onTermChange={(newTerm) => setTerm(newTerm)}
-        onTermSubmit={() => console.log("term submitted")}
+        onTermChange={setTerm}
+        onTermSubmit={() => searchApi(term)}
       />
-      <Text>Search Screen</Text>
-      <Text>{term}</Text>
+      {errorMsg ? <Text>{errorMsg}</Text> : null}
+      <Text>We have found {results.length} results</Text>
+      <ResultsList
+        navigation={navigation}
+        results={filterResultsByPrice("$")}
+        title="Cheap"
+      />
+      <ResultsList
+        navigation={navigation}
+        results={filterResultsByPrice("$$")}
+        title="Bit expensive"
+      />
+      <ResultsList
+        navigation={navigation}
+        results={filterResultsByPrice("$$$")}
+        title="Expensive"
+      />
     </View>
   );
 };

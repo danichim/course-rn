@@ -16,30 +16,31 @@ const SearchScreen = ({ navigation }) => {
   };
 
   return (
-    <View style={{ backgroundColor: "#fff", flex: 1 }}>
+    <>
       <SearchBar
         term={term}
         onTermChange={setTerm}
         onTermSubmit={() => searchApi(term)}
       />
       {errorMsg ? <Text>{errorMsg}</Text> : null}
-      <Text>We have found {results.length} results</Text>
-      <ResultsList
-        navigation={navigation}
-        results={filterResultsByPrice("$")}
-        title="Cheap"
-      />
-      <ResultsList
-        navigation={navigation}
-        results={filterResultsByPrice("$$")}
-        title="Bit expensive"
-      />
-      <ResultsList
-        navigation={navigation}
-        results={filterResultsByPrice("$$$")}
-        title="Expensive"
-      />
-    </View>
+      <ScrollView>
+        <ResultsList
+          navigation={navigation}
+          results={filterResultsByPrice("$")}
+          title="Cheap"
+        />
+        <ResultsList
+          navigation={navigation}
+          results={filterResultsByPrice("$$")}
+          title="Bit expensive"
+        />
+        <ResultsList
+          navigation={navigation}
+          results={filterResultsByPrice("$$$")}
+          title="Expensive"
+        />
+      </ScrollView>
+    </>
   );
 };
 

@@ -24,21 +24,12 @@ const SearchScreen = ({ navigation }) => {
       />
       {errorMsg ? <Text>{errorMsg}</Text> : null}
       <ScrollView>
+        <ResultsList results={filterResultsByPrice("$")} title="Cheap" />
         <ResultsList
-          navigation={navigation}
-          results={filterResultsByPrice("$")}
-          title="Cheap"
-        />
-        <ResultsList
-          navigation={navigation}
           results={filterResultsByPrice("$$")}
           title="Bit expensive"
         />
-        <ResultsList
-          navigation={navigation}
-          results={filterResultsByPrice("$$$")}
-          title="Expensive"
-        />
+        <ResultsList results={filterResultsByPrice("$$$")} title="Expensive" />
       </ScrollView>
     </>
   );
